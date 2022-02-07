@@ -64,6 +64,7 @@ export const RootNavigation = () => {
 
 
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 };

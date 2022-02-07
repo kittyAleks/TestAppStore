@@ -51,6 +51,9 @@ export const SignUpScreen = ({ navigation }) => {
       password: val,
     }));
   };
+  const handleGPX = () => {
+
+  }
   const handleSignUp = async () => {
     try {
       const res = await axios.post(MAIN_URL + '/signup', {
@@ -58,9 +61,11 @@ export const SignUpScreen = ({ navigation }) => {
         email: dataForm.email,
         password: dataForm.password,
       });
-      console.log('QQQdata', res.data)
+      if(res.status === 200) {
+        navigation.navigate('SignIn')
+      }
     } catch (e) {
-      console.log('[SERVER ERROR]', e.response.data);
+      console.log('[SERVER ERROR]', e);
     }
   };
 
@@ -74,7 +79,7 @@ export const SignUpScreen = ({ navigation }) => {
         >
           <Text style={styles.title}>Welcome Back</Text>
           <Text style={{ ...styles.title, ...styles.info }}>
-            Log in with your account
+            Create account
           </Text>
         </View>
 
@@ -102,6 +107,12 @@ export const SignUpScreen = ({ navigation }) => {
         <Button
           title="SIGN UP"
           onPress={handleSignUp}
+          buttonStyle={{ ...styles.button, ...styles.buttonSignUp }}
+          titleStyle={styles.titleSignUp}
+        />
+        <Button
+          title="GPX"
+          onPress={handleGPX}
           buttonStyle={{ ...styles.button, ...styles.buttonSignUp }}
           titleStyle={styles.titleSignUp}
         />

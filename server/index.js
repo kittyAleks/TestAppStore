@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const bcrypt = require('bcrypt');
 const mysql = require("mysql2");
 const morgan = require("morgan");
 
@@ -11,7 +12,7 @@ const db = mysql.createConnection({
   password: "KittyAleks",
   database: "KYRYLOVA",
 });
-module.exports = db;
+
 db.connect(err => {
   if (err) {
     console.log("MySQL error");
@@ -20,6 +21,9 @@ db.connect(err => {
   console.log("MySQL connected");
 });
 const app = express();
+
+app.use('/cdn', express.static('files'));
+
 const port = 80;
 
 app.use(bodyParser.json());
@@ -38,13 +42,32 @@ app.use(morgan("dev"));
 // })
 
 app.post("/signup", (req, res) => {
-  console.log("REQbody", req.body);
   const { nickname, email, password } = req.body;
-  const sql = "INSERT INTO users (nickname, email, password) VALUES (?,?)";
-  db.query(sql, [nickname, email, password], (err, res) => {
-    console.log("QQQres", res);
+  let salt = bcrypt.genSaltSync(10);
+  let hashPassword = bcrypt.hashSync(password, salt);
+  console.log('hashPassword', hashPassword)
+  const sql = "INSERT INTO users (nickname, email, password) VALUES (?,?,?)";
+  db.query(sql, [nickname, email, hashPassword], (err, result) => {
+    if (result) {
+      res.send(result);
+    } else {
+      console.log("Error", err);
+    }
   });
 });
+
+app.post("/signin", ((req, res) => {
+  const { nickname, email, password } = req.body;
+  const sql = "SELECT * FROM users WHERE nickname = ? AND email = ?  AND password = ?";
+  db.query(sql, [nickname, email, password], (err, result) => {
+    if (result.length > 0) {
+      console.log('AAAresult', result)
+      res.json({ result });
+    } else {
+      res.send({ message: "Wrong nickname/email/password combination" });
+    }
+  });
+}));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

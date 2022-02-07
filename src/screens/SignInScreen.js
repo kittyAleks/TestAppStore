@@ -3,7 +3,11 @@ import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } f
 import { HeaderButtons } from "react-navigation-header-buttons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "react-native-elements";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
+const MAIN_URL = "http://localhost"; // TODO: move to config
+const SIGN_IN = "/signin"; // TODO: move to config
 
 export const SignInScreen = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -41,15 +45,19 @@ export const SignInScreen = ({ navigation }) => {
     }));
   };
   const handleSignIn = () => {
-    if(!data.nickName || ! data.password || !data.email) {
-      return
-    }
-    savaData(data);
+    // if (!data.nickName || !data.password || !data.email) {
+    //   return;
+    // }
+    axios.post(MAIN_URL + "/signin", {
+      nickname: data.nickName,
+      email: data.email,
+      password: data.password,
+    }).then(result => {
+      console.log("SignInresult", result.data.result);
+    }).catch(error => {
+      error.message;
+    });
   };
-
-  const savaData = () => {
-    console.log('QQQdataForm', data)
-  }
 
   return (
     <KeyboardAvoidingView style={{
@@ -59,7 +67,7 @@ export const SignInScreen = ({ navigation }) => {
         <View style={styles.center}>
           <Text style={styles.title}>Welcome Back</Text>
           <Text style={{ ...styles.title, ...styles.info }}>
-            Create account
+            Log in with your account
           </Text>
         </View>
 
