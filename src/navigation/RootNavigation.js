@@ -1,22 +1,24 @@
 import React from "react";
-import {HeaderButtons} from "react-navigation-header-buttons";
+import { HeaderButtons } from "react-navigation-header-buttons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import { HomeScreen } from "../screens/HomeScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { CartScreen } from "../screens/CartScreen";
 import { SplashScreen } from "../screens/SplashScreen";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const defaultOptions = {
   headerStyle: {
-    backgroundColor:'#da404d',
+    backgroundColor: "#da404d",
   },
-  headerTintColor: '#fff',
+  headerTintColor: "#fff",
   headerTitleStyle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 };
 // const optionsSignUpScreenHeader = {
@@ -36,17 +38,17 @@ export const RootNavigation = () => {
       {/*  name="SignUpScreen"*/}
       {/*  component={SignUpScreen} />*/}
       <Stack.Screen options={{
-        ...defaultOptions
+        ...defaultOptions,
       }}
-        name="Food Market"
-        component={SplashScreen} />
+                    name="Food Market"
+                    component={SplashScreen} />
 
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
         options={{
           headerTitle: "Sign in",
-          ...defaultOptions
+          ...defaultOptions,
         }}
       />
       <Stack.Screen
@@ -54,17 +56,17 @@ export const RootNavigation = () => {
         component={SignUpScreen}
 
         options={{
-          headerTitle: 'Registration',
+          headerTitle: "Registration",
           ...defaultOptions,
           // headerLeft: () => <HeaderButtons>
-          //   <Ionicons onPress={() => navigation.navigate('SplashScreen')} name='chevron-back' color='white' size={25} />
-          // </HeaderButtons>
+          //   <Ionicons onPress={() => navigation.navigate('SplashScreen')} name='chevron-back' color='white'
+          // size={25} /> </HeaderButtons>
         }}
       />
 
 
-      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="SettingsScreen" component={AllTabNavigation} />
+      <Stack.Screen name="Home" component={AllTabNavigation} />
     </Stack.Navigator>
   );
 };
@@ -72,17 +74,41 @@ export const RootNavigation = () => {
 const BottomTab = createBottomTabNavigator();
 
 const AllTabNavigation = () => (
-  <BottomTab.Navigator>
-    <BottomTab.Screen name="Меню" component={HomeScreen}
+  <BottomTab.Navigator
+    barStyle={{
+      backgroundColor: "white",
+    }}
+    tabBarOptions={{
+      headerBackground: "#f2a127",
+      activeTintColor: "#f2a127",
+      showLabel: false,
+    }}>
+    <BottomTab.Screen
+      name='Меню'
+      component={HomeScreen}
       options={{
         headerShown: false,
-        tabBarLabel: "Home",
-        // tabBarIcon: ({ color, size }) => (
-        //   <Ionicons name="ios-home" color={"white"} size={20} />
-        // ),
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons name="ios-home" color={'#f2a127'} size={30} />
+        ),
       }}
     />
-    <BottomTab.Screen name="Корзина" component={CartScreen} />
-    <BottomTab.Screen name="Настройки" component={SettingsScreen} />
+    <BottomTab.Screen
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons name="settings" color={'#f2a127'} size={30} />
+        ),
+      }}
+      name="Корзина"
+      component={CartScreen} />
+    <BottomTab.Screen
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MaterialIcons name="shopping-basket" color={'#f2a127'} size={30} />
+        ),
+      }}
+      name="Настройки" component={SettingsScreen} />
   </BottomTab.Navigator>
 );

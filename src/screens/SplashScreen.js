@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
-  Text
-} from 'react-native'
-import { Button } from 'react-native-elements'
+  Text,
+} from "react-native";
+import { Button } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const SplashScreen = ({navigation}) => {
+export const SplashScreen = ({ navigation }) => {
+  useEffect(() => {
+    getNickname();
+  }, []);
+
+  const getNickname = () => {
+    AsyncStorage.getItem("@save_nickname")
+      .then(nick => {
+        if (nick !== null) {
+          navigation.navigate("Home");
+        }
+      }).catch(e => e.message);
+  };
+
   return (
     <View style={styles.containerStyle}>
       {/*<ImageBackground*/}
@@ -24,14 +38,14 @@ export const SplashScreen = ({navigation}) => {
           </Text>
         </View>
         <Button
-          title='SIGN IN'
-          onPress={() => navigation.navigate('SignIn')}
+          title="SIGN IN"
+          onPress={() => navigation.navigate("SignIn")}
           buttonStyle={{ ...styles.button, ...styles.buttonSignIn }}
           titleStyle={styles.titleSignIn}
         />
         <Button
-          title='SIGN UP'
-          onPress={() => navigation.navigate('SignUp')}
+          title="SIGN UP"
+          onPress={() => navigation.navigate("SignUp")}
           buttonStyle={{ ...styles.button, ...styles.buttonSignUp }}
           titleStyle={styles.titleSignUp}
         />
@@ -42,18 +56,18 @@ export const SplashScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
-    backgroundColor: '#d9bebe'
+    backgroundColor: "#d9bebe",
   },
   text: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: 10,
-    color: 'white'
+    color: "white",
   },
   buttonGroupStyle: {
-    flexDirection: 'column',
+    flexDirection: "column",
     paddingHorizontal: 30,
-    textAlign: 'center',
+    textAlign: "center",
     paddingVertical: 200,
   },
   inputStyle: {
@@ -61,8 +75,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderRadius: 10,
     height: 50,
-    width: '100%',
-    backgroundColor: 'white',
+    width: "100%",
+    backgroundColor: "white",
     // opacity: 0.7
   },
   button: {
@@ -70,28 +84,28 @@ const styles = StyleSheet.create({
     marginTop: 30,
     height: 50,
     borderRadius: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     // opacity: 1,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: "#fff",
   },
   buttonSignUp: {
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   buttonSignIn: {
-    backgroundColor: '#ff9c9b'
+    backgroundColor: "#ff9c9b",
   },
 
   titleSignIn: {
-    color: 'white',
+    color: "white",
   },
   titleSignUp: {
-    color: '#ff9c9b',
+    color: "#ff9c9b",
   },
   title: {
     fontSize: 35,
-    color: '#fff',
-    textAlign: 'center'
+    color: "#fff",
+    textAlign: "center",
   },
   center: {
     paddingTop: 3,
@@ -99,7 +113,7 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 20,
     marginHorizontal: 20,
-    margin: 20
+    margin: 20,
   },
 
 });

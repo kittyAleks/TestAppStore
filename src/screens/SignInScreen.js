@@ -1,14 +1,13 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { HeaderButtons } from "react-navigation-header-buttons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { saveData } from "../services/auth";
 
 const MAIN_URL = "http://localhost"; // TODO: move to config
-const SIGN_IN = "/signin"; // TODO: move to config
-
 export const SignInScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -44,6 +43,11 @@ export const SignInScreen = ({ navigation }) => {
       password: val,
     }));
   };
+
+  // useEffect(() => {
+  //   getNickname();
+  // }, []);
+
   const handleSignIn = () => {
     // if (!data.nickName || !data.password || !data.email) {
     //   return;
@@ -53,11 +57,26 @@ export const SignInScreen = ({ navigation }) => {
       email: data.email,
       password: data.password,
     }).then(result => {
-      console.log("SignInresult", result.data.result);
+      const { email, password, nickname } = result.data;
+      if (nickname.length !== 0) {
+        console.log('WWWnickname', nickname)
+        saveData(email, password, nickname)
+          .then(() => navigation.navigate("Home", { data }));
+      }
+      console.log("SignInresult", result);
     }).catch(error => {
       error.message;
     });
   };
+  //
+  // const getNickname = () => {
+  //   AsyncStorage.getItem("@save_nickname")
+  //     .then (nick => {
+  //       if (nick !== null) {
+  //         navigation.navigate("Home");
+  //       }
+  //     }).catch(e => e.message);
+  // };
 
   return (
     <KeyboardAvoidingView style={{
