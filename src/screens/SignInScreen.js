@@ -9,13 +9,13 @@ import { saveData } from "../services/auth";
 
 const MAIN_URL = "http://localhost"; // TODO: move to config
 export const SignInScreen = ({ navigation }) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <HeaderButtons>
-        <Ionicons onPress={() => navigation.navigate("Food Market")} name="chevron-back" color="white" size={25} />
-      </HeaderButtons>,
-    });
-  }, []);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: () => <HeaderButtons>
+  //       <Ionicons onPress={() => navigation.navigate("Food Market")} name="chevron-back" color="white" size={25} />
+  //     </HeaderButtons>,
+  //   });
+  // }, []);
   const [data, setData] = useState({
     nickName: null,
     email: null,

@@ -11,6 +11,8 @@ import { SplashScreen } from "../screens/SplashScreen";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { mainColors } from "../assets/colors";
+import { BasketScreen } from "../screens/BasketScreen";
 
 const defaultOptions = {
   headerStyle: {
@@ -89,7 +91,7 @@ const AllTabNavigation = () => (
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="ios-home" color={'#f2a127'} size={30} />
+          <Ionicons name="ios-home" color={mainColors.buttonBasket} size={30} />
         ),
       }}
     />
@@ -97,18 +99,18 @@ const AllTabNavigation = () => (
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="settings" color={'#f2a127'} size={30} />
+          <Ionicons name="settings" color={mainColors.buttonBasket} size={30} />
         ),
       }}
-      name="Корзина"
-      component={CartScreen} />
+      name="Settings"
+      component={SettingsScreen} />
     <BottomTab.Screen
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
-          <MaterialIcons name="shopping-basket" color={'#f2a127'} size={30} />
+          <MaterialIcons name="shopping-basket" color={mainColors.buttonBasket} size={30} />
         ),
       }}
-      name="Настройки" component={SettingsScreen} />
+      name="Basket" component={BasketScreen} />
   </BottomTab.Navigator>
 );
